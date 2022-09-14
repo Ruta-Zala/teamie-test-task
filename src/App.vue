@@ -5,10 +5,10 @@
       <div class="flex sm:items-end gap-2 flex-col sm:flex-row">
         <div>
           <label>Joined Twitter between</label>
-          <Datepicker v-model="startDate" placeholder="Start Date"></Datepicker>
+          <Datepicker v-model="startDate" placeholder="Start Date" inputFormat="dd-MM-yyyy"></Datepicker>
         </div>
         <div>
-          <Datepicker v-model="endDate" placeholder="End Date"></Datepicker>
+          <Datepicker v-model="endDate" placeholder="End Date" inputFormat="dd-MM-yyyy"></Datepicker>
         </div>
         <button @click="filterDataByDate(startDate, endDate)"
                 class="px-6 py-2 text-white bg-green-700 rounded hover:bg-green-900"> Filter
@@ -41,8 +41,7 @@ import axios from "axios";
 import LayoutSection from "./components/LayoutSection.vue";
 import FilterSection from "./components/FilterSection.vue";
 import ListSection from "./components/ListSection.vue";
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import Datepicker from "vue3-datepicker";
 
 export default {
   components: {
@@ -60,8 +59,8 @@ export default {
       error: null,
       isActive: false,
       desc: true,
-      startDate: null,
-      endDate: null,
+      startDate: new Date(),
+      endDate: new Date(),
       currentIndex: 0
     };
   },
@@ -110,13 +109,9 @@ export default {
       this.loading = false;
     },
     filterDataByDate: async function (startDate, endDate) {
-      this.users = this.initialData.filter(user => {
-        const startDateUser = new Date(startDate).getTime();
-        const endDateUser = new Date(endDate).getTime();
-        if (startDateUser < user.join_date && endDateUser > user.join_date) {
-          return true
-        }
-      });
+      const startDateUser = new Date(startDate).getTime();
+      const endDateUser = new Date(endDate).getTime();
+      this.users = await this.initialData.filter(user => startDateUser < user.join_date && endDateUser > user.join_date);
     },
     filterDataBySection: async function (section,index) {
       this.currentIndex = index;

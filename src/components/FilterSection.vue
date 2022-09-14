@@ -1,10 +1,10 @@
 <template>
   <div class="flex justify-center rounded flex-col">
-    <label for="">Sort By</label>
+    <label>Sort By</label>
     <div class="flex-col sm:flex-row inline-flex rounded-md shadow-sm" role="group">
       <button v-for="(section, index) in sections" :key="index" :class="{ 'bg-green-700 text-white border-green-700' : currentIndex === index }"
               :value="section"
-              @click="fetch(section,index)" type="button"
+              @click="fetch(section.toLocaleLowerCase(),index)" type="button"
               class="py-2 px-4 text-sm font-medium text-gray-900 bg-white border border-gray-200
               hover:bg-green-900 hover:text-white hover:border-green-700 focus:outline-none
              flex items-center">
